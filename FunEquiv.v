@@ -48,6 +48,7 @@ Lemma isSortedB_correct l : isSortedB l = isSortedR l.
 Proof.
   apply (isSortedB_elim (fun l res => res = isSortedR l))=>//= h t.
   (* Oh my gosh, what an ugly goal, can I save it into a variable? *)
+  (* on another thought, I don't need it for elimination... *)
   case: t=>//={l} h' t /(_ h t) Hi.
   case: ifP=> Eh; last first.
   - have G: h' >= h by apply: (@contraFleq (h' < h) h h').
