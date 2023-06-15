@@ -1,5 +1,5 @@
-From mathcomp.ssreflect
-Require Import ssreflect ssrbool ssrnat eqtype ssrfun seq fintype path.
+From mathcomp
+Require Import ssreflect ssrbool ssrnat eqtype ssrfun seq fintype path zify.
 Require Import Eqdep.
 (* From mathcomp.algebra Require Import ssrint. *)
 Require Import FunInd.
@@ -66,7 +66,19 @@ Proof.
   rewrite isSortedB_equation_2.
   case: ifP; rewrite ltnNge; first by rewrite -eqbF_neg=>/eqP->.
   by rewrite Bool.negb_false_iff =>->.
-Qed.    
+Qed.
+
+
+(* Vova's proof via induction on isSortedB *)
+Lemma isSortedB_correct' l : isSortedB l = isSortedR l.
+Proof.
+  funelim (isSortedB l)=> //.
+  case: ltail H=> // ?? IHtail. 
+  simp isSortedR; case: ifP.
+  { simp loop; case: ifP=> //; lia. }
+  rewrite IHtail //; simp isSortedR loop; case: ifP=> //;  lia.
+Qed. 
+
     
 (*
 def isSortedC(l: List[Int]): Boolean =
