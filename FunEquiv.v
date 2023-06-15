@@ -44,7 +44,7 @@ isSortedB (lhead :: ltail) :=
     else true.
 
   
-Lemma isSortedB_correct l : isSortedB l = isSortedR l.
+Lemma isSortedB_correctB l : isSortedB l = isSortedR l.
 Proof.
   apply (isSortedB_elim (fun l res => res = isSortedR l))=>//= h t.
   (* Oh my gosh, what an ugly goal, can I save it into a variable? *)
@@ -56,10 +56,19 @@ Proof.
     by rewrite !isSortedR_equation_2 =>/=; rewrite G. 
   by rewrite isSortedR_equation_2 isSortedR_clause_2_loop_equation_2 leqNgt Eh.
 Qed.  
-
-Check True.
-
-  (*
+ 
+(* Same proof, different induction principle *) 
+Lemma isSortedB_correctR l : isSortedB l = isSortedR l.
+Proof. 
+  apply (isSortedR_elim
+    (fun l res => isSortedB l = res)
+    (fun _ _ p l loopres => isSortedB (p::l) = loopres))=>//= head tail p x xs <-.
+  rewrite isSortedB_equation_2.
+  case: ifP; rewrite ltnNge; first by rewrite -eqbF_neg=>/eqP->.
+  by rewrite Bool.negb_false_iff =>->.
+Qed.    
+    
+(*
 def isSortedC(l: List[Int]): Boolean =
   def chk(l: List[Int], p: Int, a: Boolean): Boolean =
   if (l.isEmpty) a
