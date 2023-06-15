@@ -5,16 +5,6 @@ Require Import Eqdep.
 Require Import FunInd.
 From Equations Require Import Equations.
 
-(* 
-
-def isSortedR(l: List[Int]): Boolean =
-  def loop(p: Int, l: List[Int]): Boolean = l match
-    case Nil() => true
-    case Cons(x, xs) if (p <= x) => loop(x, xs) 
-    case _ => false
-    if (l.isEmpty) true else loop(l.head, l.tail)
-*)
-
 Equations isSortedR (l: seq nat) : bool := 
   isSortedR [::]          := true;
   isSortedR (head :: tail) := loop head tail
@@ -24,18 +14,6 @@ Equations isSortedR (l: seq nat) : bool :=
     loop p [::]    := true;
     loop p (x :: xs) := if p <= x then loop x xs else false.
  
-(* Check isSortedR_elim. *)
-
-(*
-def isSortedB(l: List[Int]): Boolean = 
-  if (l.isEmpty)
-    true
-  else if (!l.tail.isEmpty && l.head > l.tail.head)
-    false
-  else
-  isSortedB(l.tail)
-*)
-
 Equations isSortedB (l : seq nat) : bool := 
 isSortedB [::] := true;  
 isSortedB (lhead :: ltail) :=
@@ -79,7 +57,30 @@ Proof.
   rewrite IHtail //; simp isSortedR loop; case: ifP=> //;  lia.
 Qed. 
 
-    
+(* ************************************************************************
+
+Examples from https://dl.acm.org/doi/10.1145/3591258
+
+************************************************************************ *)
+(* 
+def isSortedR(l: List[Int]): Boolean =
+  def loop(p: Int, l: List[Int]): Boolean = l match
+    case Nil() => true
+    case Cons(x, xs) if (p <= x) => loop(x, xs) 
+    case _ => false
+    if (l.isEmpty) true else loop(l.head, l.tail)
+*)
+
+(*
+def isSortedB(l: List[Int]): Boolean = 
+  if (l.isEmpty)
+    true
+  else if (!l.tail.isEmpty && l.head > l.tail.head)
+    false
+  else
+  isSortedB(l.tail)
+*)
+
 (*
 def isSortedC(l: List[Int]): Boolean =
   def chk(l: List[Int], p: Int, a: Boolean): Boolean =
