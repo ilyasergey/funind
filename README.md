@@ -12,5 +12,5 @@ Coq definitions and proofs:
 We recommend installing the Coq requirements via [OPAM](https://opam.ocaml.org/doc/Install.html):
 ```
 opam repo add coq-released https://coq.inria.fr/opam/released
-opam install coq coq-mathcomp-ssreflect.1.10.0 
+opam install coq coq-mathcomp-ssreflect.1.10.0 coq-equations
 ```
