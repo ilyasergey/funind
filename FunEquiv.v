@@ -51,7 +51,7 @@ Qed.
 Lemma isSortedB_correct' l : isSortedB l = isSortedR l.
 Proof.
   funelim (isSortedB l)=> //.
-  case: ltail H=> // ?? IHtail. 
+  case: ltail H=> // ?? IHtail.
   simp isSortedR; case: ifP.
   { simp loop; case: ifP=> //; lia. }
   rewrite IHtail //; simp isSortedR loop; case: ifP=> //;  lia.
